@@ -1,11 +1,11 @@
-name: Docker build and push image to aliyun Docker 
+name: Docker build and push image to aliyun Docker
 
 on:
   push:
     branches:
       - 'main'
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.ALIYUN_DOCKER_HUB_REGISTRY }}:${{ env.GITHUB_SHA_SHORT }}-backend
 
       - name: Build and push the frontend container
         uses: docker/build-push-action@v4
@@ -61,7 +61,7 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.ALIYUN_DOCKER_HUB_REGISTRY }}:${{ env.GITHUB_SHA_SHORT }}-frontend
 
       - name: Build and push the admin dashboard container
         uses: docker/build-push-action@v4
@@ -73,7 +73,7 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.ALIYUN_DOCKER_HUB_REGISTRY }}:${{ env.GITHUB_SHA_SHORT }}-admin
 
       - name: Build and push the AIO container
         uses: docker/build-push-action@v4
@@ -85,4 +85,4 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.ALIYUN_DOCKER_HUB_REGISTRY }}:${{ env.GITHUB_SHA_SHORT }}-aio
